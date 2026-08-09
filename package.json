@@ -7,7 +7,9 @@
     "validate-env": "node scripts/validateEnv.js",
     "dev": "npm run validate-env && nodemon server.js",
     "start": "npm run validate-env && node server.js",
-    "test-email": "npm run validate-env && node scripts/testEmail.js"
+    "test-email": "npm run validate-env && node scripts/testEmail.js",
+    "build:frontend": "npm run build --prefix frontend",
+    "deploy:frontend": "cd frontend && npm run deploy"
   },
   "dependencies": {
     "axios": "^1.18.1",
