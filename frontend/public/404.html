@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting...</title>
+    <script>
+      var pathname = window.location.pathname;
+      var hash = window.location.hash;
+      var search = window.location.search;
+      var base = "/ott";
+
+      if (pathname.startsWith(base)) {
+        var subpath = pathname.substring(base.length);
+        if (subpath && subpath !== "/") {
+          window.location.replace(base + "/#" + subpath + search + hash);
+        } else {
+          window.location.replace(base + "/" + search + hash);
+        }
+      } else {
+        window.location.replace("/ott/");
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to the app...</p>
+  </body>
+</html>

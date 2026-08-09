@@ -1,0 +1,157 @@
+.splash-container {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #020205;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.splash-ambient-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.splash-light-orb {
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.08;
+}
+
+.splash-light-orb.first {
+  background: radial-gradient(circle, var(--color-accent-primary) 0%, transparent 70%);
+  top: 10%;
+  left: 20%;
+}
+
+.splash-light-orb.second {
+  background: radial-gradient(circle, var(--color-accent-secondary) 0%, transparent 70%);
+  bottom: 10%;
+  right: 20%;
+}
+
+.splash-dust-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.splash-dust-particle {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.splash-logo-frame {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90%;
+  width: 760px;
+}
+
+.splash-letters-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: clamp(8px, 1.5vw, 16px);
+}
+
+.splash-letter-container {
+  flex: 1;
+  max-width: 72px;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.splash-letter-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.splash-letter-svg {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.splash-letter-wrapper.liquid .splash-letter-svg {
+  filter: drop-shadow(0 0 14px rgba(229, 9, 20, 0.4));
+}
+
+.splash-letter-wrapper.glass .splash-letter-svg {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+.splash-letter-wrapper.beam .splash-letter-svg {
+  filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.45));
+}
+
+.splash-letter-wrapper.wireframe .splash-letter-svg {
+  filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.4));
+}
+
+.splash-letter-wrapper.slash .splash-letter-svg {
+  filter: drop-shadow(0 0 14px rgba(229, 9, 20, 0.4));
+}
+
+.splash-shimmer-sweep {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    rgba(255, 255, 255, 0.05) 90%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.splash-bottom-lock {
+  position: absolute;
+  bottom: 50px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  color: var(--color-text-secondary);
+  z-index: 2;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .splash-letters-row {
+    gap: 6px;
+  }
+  .splash-bottom-lock {
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    bottom: 30px;
+  }
+}

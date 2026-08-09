@@ -1,0 +1,357 @@
+
+
+.subs-feed-page {
+  min-height: 100vh;
+  padding: 32px 4%;
+  background: #0a0a0a;
+}
+
+.subs-feed-header {
+  margin-bottom: 24px;
+}
+
+.subs-channels-bar {
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.subs-channels-scroll {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.subs-channels-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.subs-channels-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.subs-channel-avatar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.subs-avatar-ring {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #E50914, #00D4FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.subs-avatar-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.subs-avatar-ring span {
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.subs-channel-name {
+  font-size: 11px;
+  color: #A8B0C0;
+  max-width: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.subs-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.subs-filter-chips {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.subs-chip {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #A8B0C0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.subs-chip:hover,
+.subs-chip.active {
+  color: #ffffff;
+  background: #E50914;
+  border-color: #E50914;
+  box-shadow: 0 4px 14px rgba(229, 9, 20, 0.4);
+}
+
+.subs-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #A8B0C0;
+}
+
+.subs-search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 13px;
+  width: 180px;
+}
+
+.subs-feed-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 80px 20px;
+  color: #555;
+  text-align: center;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.subs-feed-empty h3 {
+  color: #fff;
+  font-size: 20px;
+}
+
+.subs-feed-empty p {
+  color: #888;
+  font-size: 14px;
+  max-width: 400px;
+}
+
+.subs-feed-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.subs-feed-post {
+  grid-column: 1 / -1;
+  max-width: 640px;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.subs-feed-post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.subs-feed-post-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E50914, #6C63FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.subs-feed-post-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subs-feed-post-avatar span {
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.subs-feed-post-name {
+  font-weight: 600;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.subs-feed-post-name:hover {
+  color: #E50914;
+}
+
+.subs-verified-icon {
+  color: #3b82f6;
+  font-size: 16px;
+}
+
+.subs-feed-post-date {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.subs-feed-post-content {
+  color: #d4d4d4;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.subs-feed-poll {
+  margin-top: 16px;
+}
+
+.subs-feed-poll h4 {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.subs-feed-poll-option {
+  padding: 10px 16px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ddd;
+  font-size: 13px;
+}
+
+.subs-feed-discover {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.subs-feed-discover-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.subs-feed-creators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.subs-creator-card {
+  padding: 28px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.subs-creator-link {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.subs-creator-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E50914, #6C63FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.subs-creator-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subs-creator-avatar span {
+  color: #fff;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.subs-creator-name {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+}
+
+.subs-creator-subs {
+  color: #888;
+  font-size: 12px;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .subs-feed-list {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .subs-feed-creators-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .subs-creator-avatar {
+    width: 56px;
+    height: 56px;
+  }
+}

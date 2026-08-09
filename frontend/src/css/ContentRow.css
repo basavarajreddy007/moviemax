@@ -1,0 +1,127 @@
+.content-row {
+  margin-bottom: var(--space-2xl);
+  padding: 0 clamp(20px, 4.5vw, 72px);
+  position: relative;
+  z-index: 1;
+}
+
+.content-row-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  padding-bottom: 4px;
+}
+
+.content-row-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.content-row-indicator {
+  width: 4px;
+  height: 24px;
+  background: var(--color-accent-gradient);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-glow-accent);
+}
+
+.content-row-wrapper {
+  position: relative;
+}
+
+.content-row-track {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: var(--space-xs) 4px var(--space-lg);
+  will-change: scroll-position;
+}
+
+.content-row-track::-webkit-scrollbar {
+  display: none;
+}
+
+.content-row-track .movie-card {
+  flex: 0 0 220px;
+  width: 220px;
+}
+
+.content-row-track .movie-card.featured {
+  flex: 0 0 300px;
+  width: 300px;
+}
+
+@media (max-width: 1024px) {
+  .content-row-track .movie-card {
+    flex: 0 0 190px;
+    width: 190px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-row-track .movie-card {
+    flex: 0 0 155px;
+    width: 155px;
+  }
+  .content-row-track .movie-card.featured {
+    flex: 0 0 220px;
+    width: 220px;
+  }
+}
+
+.scroll-btn {
+  position: absolute;
+  top: calc(50% - 20px);
+  transform: translateY(-50%);
+  width: 48px;
+  height: 100px;
+  background: rgba(16, 18, 23, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  z-index: 10;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  opacity: 0;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.content-row-wrapper:hover .scroll-btn {
+  opacity: 1;
+}
+
+.scroll-btn:hover {
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+  color: #ffffff;
+  box-shadow: var(--shadow-glow-accent);
+}
+
+.scroll-btn:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.scroll-left {
+  left: -24px;
+}
+
+.scroll-right {
+  right: -24px;
+}
+
+@media (max-width: 768px) {
+  .scroll-btn {
+    display: none;
+  }
+}
