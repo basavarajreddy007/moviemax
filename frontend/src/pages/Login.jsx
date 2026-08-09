@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
 import { FaApple, FaGithub, FaGoogle, FaWindows } from "react-icons/fa";
 import { HiEye, HiEyeOff, HiMail, HiLockClosed, HiShieldCheck } from "react-icons/hi";
@@ -8,6 +7,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
 import { authAPI } from "../services/api";
 import Logo from "../components/common/Logo";
+import GoogleSignInButton from "../components/common/GoogleSignInButton";
 import "../css/Auth.css";
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -358,46 +358,35 @@ export default function Login() {
                 </button>
               </div>
 
-              {googleClientId && googleClientId !== "your_google_client_id_here" && (
-                <>
-                  <div className="auth-divider">
-                    <span className="auth-divider-line" />
-                    <span className="auth-divider-text">or continue with</span>
-                    <span className="auth-divider-line" />
-                  </div>
+              <div className="auth-divider">
+                <span className="auth-divider-line" />
+                <span className="auth-divider-text">or continue with</span>
+                <span className="auth-divider-line" />
+              </div>
 
-                  <div className="social-auth-grid" style={{ display: "flex", justifyContent: "center" }}>
-                    <div style={{ height: "44px", overflow: "hidden", display: "flex", width: "100%" }}>
-                      <GoogleLogin
-                        onSuccess={async (credentialResponse) => {
-                          setLoading(true);
-                          try {
-                             await googleLogin(credentialResponse.credential);
-                             setIsSuccess(true);
-                             setTimeout(() => {
-                               navigate("/");
-                             }, 1600);
-                          } catch (err) {
-                             triggerShake();
-                             toast.error(err.response?.data?.message || "Google login failed");
-                          } finally {
-                             setLoading(false);
-                          }
-                        }}
-                        onError={() => {
-                          triggerShake();
-                          toast.error("Google sign-in failed");
-                        }}
-                        size="large"
-                        theme="filled_black"
-                        text="signin_with"
-                        shape="pill"
-                        width="100%"
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
+              <GoogleSignInButton
+                text="Sign in with Google"
+                loading={loading}
+                onSuccess={async (credentialResponse) => {
+                  setLoading(true);
+                  try {
+                    await googleLogin(credentialResponse.credential);
+                    setIsSuccess(true);
+                    setTimeout(() => {
+                      navigate("/");
+                    }, 1600);
+                  } catch (err) {
+                    triggerShake();
+                    toast.error(err.response?.data?.message || "Google login failed");
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                onError={() => {
+                  triggerShake();
+                  toast.error("Google sign-in failed");
+                }}
+              />
 
               <p className="auth-switch">
                 Don't have an account? <Link to="/register">Sign Up</Link>

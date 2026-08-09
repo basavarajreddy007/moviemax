@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { GoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
 import { HiUser, HiMail, HiLockClosed, HiEye, HiEyeOff } from "react-icons/hi";
 import toast from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
 import { authAPI } from "../services/api";
 import Logo from "../components/common/Logo";
+import GoogleSignInButton from "../components/common/GoogleSignInButton";
 import "../css/Auth.css";
 
 export default function Register() {
@@ -176,44 +176,36 @@ export default function Register() {
             </div>
           </form>
 
-          {(!googleClientId || googleClientId === "your_google_client_id_here") ? null : (
-            <>
-              <div className="auth-divider">
-                <span className="auth-divider-line" />
-                <span className="auth-divider-text">or register with</span>
-                <span className="auth-divider-line" />
-              </div>
+          <div className="auth-divider">
+            <span className="auth-divider-line" />
+            <span className="auth-divider-text">or register with</span>
+            <span className="auth-divider-line" />
+          </div>
 
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <GoogleLogin
-                  onSuccess={async (credentialResponse) => {
-                    setLoading(true);
-                    try {
-                      await googleLogin(credentialResponse.credential);
-                      setIsSuccess(true);
-                      setTimeout(() => {
-                        navigate("/");
-                        toast.success("Welcome!");
-                      }, 1500);
-                    } catch (err) {
-                      triggerShake();
-                      toast.error(err.response?.data?.message || "Google registration failed");
-                    } finally {
-                      setLoading(false);
-                    }
-                  }}
-                  onError={() => {
-                    triggerShake();
-                    toast.error("Google sign-up failed");
-                  }}
-                  size="large"
-                  theme="filled_black"
-                  text="signup_with"
-                  shape="pill"
-                />
-              </div>
-            </>
-          )}
+          <GoogleSignInButton
+            text="Sign up with Google"
+            loading={loading}
+            onSuccess={async (credentialResponse) => {
+              setLoading(true);
+              try {
+                await googleLogin(credentialResponse.credential);
+                setIsSuccess(true);
+                setTimeout(() => {
+                  navigate("/");
+                  toast.success("Welcome!");
+                }, 1500);
+              } catch (err) {
+                triggerShake();
+                toast.error(err.response?.data?.message || "Google registration failed");
+              } finally {
+                setLoading(false);
+              }
+            }}
+            onError={() => {
+              triggerShake();
+              toast.error("Google sign-up failed");
+            }}
+          />
 
           <p className="auth-switch">
             Already have an account? <Link to="/login">Sign In</Link>
