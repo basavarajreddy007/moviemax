@@ -83,7 +83,8 @@ export default function GoogleSignInButton({
               size="large"
               theme="filled_black"
               shape="pill"
-              width="380"
+              width={380}
+              useOneTap={false}
             />
           </div>
         )}
