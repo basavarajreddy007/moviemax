@@ -77,7 +77,7 @@ export default function GoogleSignInButton({
               size="large"
               theme="filled_black"
               shape="pill"
-              width="380px"
+              width="380"
             />
           </div>
         )}

@@ -46,7 +46,7 @@ app.set("trust proxy", 1);
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
-  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+  crossOriginOpenerPolicy: { policy: "unsafe-none" },
 }));
 app.use(morgan(config.IS_PRODUCTION ? "combined" : "dev"));
 app.use(compression());
