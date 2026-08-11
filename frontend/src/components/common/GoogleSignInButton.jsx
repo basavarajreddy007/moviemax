@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -50,12 +50,12 @@ export default function GoogleSignInButton({
     <div className="google-btn-container">
       <motion.div
         className="google-btn-wrapper"
-        whileHover={{ scale: 1.015 }}
-        whileTap={{ scale: 0.985 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
       >
         <button
           type="button"
-          className="google-btn-custom"
+          className="uiverse-google-btn"
           onClick={handleFallbackClick}
           disabled={loading}
         >
@@ -63,8 +63,14 @@ export default function GoogleSignInButton({
             <span className="google-btn-spinner" />
           ) : (
             <>
-              <GoogleIcon />
-              <span>{text}</span>
+              <span className="actual-text">
+                <GoogleIcon />
+                <span>&nbsp;{text}&nbsp;</span>
+              </span>
+              <span aria-hidden="true" className="hover-text">
+                <GoogleIcon />
+                <span>&nbsp;{text}&nbsp;</span>
+              </span>
             </>
           )}
         </button>
