@@ -392,14 +392,16 @@ export default function Login() {
                 onSuccess={async (credentialResponse) => {
                   setLoading(true);
                   try {
-                    await googleLogin(credentialResponse.credential);
+                    const payload = credentialResponse.credential || credentialResponse;
+                    await googleLogin(payload);
                     setIsSuccess(true);
+                    toast.success("Signed in with Google successfully!");
                     setTimeout(() => {
                       navigate("/");
                     }, 1500);
                   } catch (err) {
                     triggerShake();
-                    toast.error(err.response?.data?.message || "Google login failed");
+                    toast.error(err.response?.data?.message || err || "Google login failed");
                   } finally {
                     setLoading(false);
                   }

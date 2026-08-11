@@ -1,5 +1,5 @@
-import React from "react";
-import { GoogleLogin } from "@react-oauth/google";
+import React, { useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import "./GoogleSignInButton.css";
@@ -31,63 +31,81 @@ export default function GoogleSignInButton({
   text = "Continue with Google",
   loading = false,
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const isConfigured =
     googleClientId &&
     googleClientId !== "your_google_client_id_here" &&
     googleClientId !== "google-client-id-placeholder";
 
-  const handleFallbackClick = () => {
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      setIsSubmitting(false);
+      if (onSuccess) {
+        onSuccess({
+          credential: tokenResponse.access_token,
+          accessToken: tokenResponse.access_token,
+        });
+      }
+    },
+    onError: (errorResponse) => {
+      setIsSubmitting(false);
+      console.error("Google authentication failed:", errorResponse);
+      if (onError) {
+        onError(errorResponse);
+      } else {
+        toast.error("Google sign-in failed. Please try again.");
+      }
+    },
+  });
+
+  const handleClick = () => {
     if (!isConfigured) {
       toast.error(
         "Google Client ID is not configured. Please add VITE_GOOGLE_CLIENT_ID to your .env file.",
         { duration: 5000, icon: "🔑" }
       );
+      return;
+    }
+
+    if (loading || isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      loginWithGoogle();
+    } catch (err) {
+      setIsSubmitting(false);
+      console.error("Google login launch error:", err);
+      toast.error("Unable to launch Google sign-in.");
     }
   };
+
+  const isLoading = loading || isSubmitting;
 
   return (
     <div className="google-btn-container">
       <motion.div
         className="google-btn-wrapper"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={isLoading ? {} : { scale: 1.01 }}
+        whileTap={isLoading ? {} : { scale: 0.98 }}
       >
         <button
           type="button"
-          className="uiverse-google-btn"
-          onClick={handleFallbackClick}
-          disabled={loading}
+          className="custom-google-btn"
+          onClick={handleClick}
+          disabled={isLoading}
+          aria-label={text}
         >
-          {loading ? (
-            <span className="google-btn-spinner" />
+          {isLoading ? (
+            <span className="google-btn-spinner" aria-hidden="true" />
           ) : (
-            <>
-              <span className="actual-text">
-                <GoogleIcon />
-                <span>&nbsp;{text}&nbsp;</span>
-              </span>
-              <span aria-hidden="true" className="hover-text">
-                <GoogleIcon />
-                <span>&nbsp;{text}&nbsp;</span>
-              </span>
-            </>
+            <span className="google-btn-content">
+              <GoogleIcon />
+              <span>{text}</span>
+            </span>
           )}
         </button>
-
-        {isConfigured && !loading && (
-          <div className="google-login-iframe-overlay">
-            <GoogleLogin
-              onSuccess={onSuccess}
-              onError={onError}
-              size="large"
-              theme="filled_black"
-              shape="pill"
-              width={380}
-              useOneTap={false}
-            />
-          </div>
-        )}
       </motion.div>
     </div>
   );

@@ -121,7 +121,7 @@ export const authAPI = {
   refreshToken: (data) => api.post("/auth/refresh-token", data),
   forgotPassword: (data) => api.post("/auth/forgot-password", data),
   resetPassword: (data) => api.post("/auth/reset-password", data),
-  googleLogin: (credential) => api.post("/auth/google", { credential }),
+  googleLogin: (payload) => api.post("/auth/google", typeof payload === "object" && payload !== null ? payload : { credential: payload }),
   getMe: () => api.get("/auth/me"),
 };
 

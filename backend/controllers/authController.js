@@ -1,4 +1,5 @@
 const { OAuth2Client } = require("google-auth-library");
+const axios = require("axios");
 const { validationResult } = require("express-validator");
 const User = require("../models/User");
 const { generateToken, generateRefreshToken, verifyRefreshToken } = require("../utils/generateToken");
@@ -448,9 +449,10 @@ const resetPassword = async (req, res, next) => {
 
 const googleAuth = async (req, res, next) => {
   try {
-    const { credential } = req.body;
-    if (!credential) {
-      return res.status(400).json({ success: false, message: "Google ID token is required" });
+    const { credential, accessToken } = req.body;
+    const tokenToVerify = credential || accessToken;
+    if (!tokenToVerify) {
+      return res.status(400).json({ success: false, message: "Google token is required" });
     }
 
     const googleClientId = process.env.GOOGLE_CLIENT_ID;
@@ -459,18 +461,42 @@ const googleAuth = async (req, res, next) => {
     }
 
     let payload;
-    try {
-      const client = new OAuth2Client(googleClientId);
-      const ticket = await client.verifyIdToken({
-        idToken: credential,
-        audience: googleClientId,
-      });
-      payload = ticket.getPayload();
-    } catch (verifyError) {
-      console.error("Google token verification failed:", verifyError);
+    if (credential) {
+      try {
+        const client = new OAuth2Client(googleClientId);
+        const ticket = await client.verifyIdToken({
+          idToken: credential,
+          audience: googleClientId,
+        });
+        payload = ticket.getPayload();
+      } catch (verifyError) {
+        // ID token verification failed, will attempt access token userinfo fallback
+      }
+    }
+
+    if (!payload && tokenToVerify) {
+      try {
+        const userInfoRes = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${tokenToVerify}` },
+        });
+        if (userInfoRes.data) {
+          payload = {
+            sub: userInfoRes.data.sub,
+            email: userInfoRes.data.email,
+            name: userInfoRes.data.name,
+            picture: userInfoRes.data.picture,
+            email_verified: userInfoRes.data.email_verified ?? true,
+          };
+        }
+      } catch (userInfoError) {
+        console.error("Google userinfo fetch failed:", userInfoError.response?.data || userInfoError.message);
+      }
+    }
+
+    if (!payload) {
       return res.status(401).json({
         success: false,
-        message: "Invalid or expired Google token. Please try signing in again."
+        message: "Invalid or expired Google token. Please try signing in again.",
       });
     }
 
@@ -480,7 +506,7 @@ const googleAuth = async (req, res, next) => {
       return res.status(400).json({ success: false, message: "Google token payload is missing an email address" });
     }
 
-    if (!email_verified) {
+    if (email_verified === false) {
       return res.status(400).json({ success: false, message: "Your Google email address is not verified" });
     }
 
