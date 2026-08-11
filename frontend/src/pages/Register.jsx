@@ -12,7 +12,6 @@ import "../css/Auth.css";
 
 export default function Register() {
   const { googleLogin } = useAuth();
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -50,24 +49,28 @@ export default function Register() {
   if (isSuccess) {
     return (
       <div className="auth-page">
+        <div className="auth-gradient-bg">
+          <div className="auth-glow-blob one" />
+          <div className="auth-glow-blob two" />
+        </div>
         <div className="auth-container">
           <motion.div
-            className="uiverse-form"
-            style={{ textAlign: "center", padding: "40px" }}
+            className="auth-card-modern"
+            style={{ textAlign: "center" }}
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
           >
             <motion.svg
-              width="90"
-              height="90"
+              width="80"
+              height="80"
               viewBox="0 0 100 100"
-              style={{ margin: "0 auto 24px", display: "block" }}
+              style={{ margin: "0 auto 20px", display: "block" }}
             >
               <motion.circle
                 cx="50"
                 cy="50"
                 r="44"
-                stroke="var(--color-success)"
+                stroke="var(--color-success, #10B981)"
                 strokeWidth="6"
                 fill="none"
                 initial={{ pathLength: 0 }}
@@ -76,7 +79,7 @@ export default function Register() {
               />
               <motion.path
                 d="M32 52L45 65L70 36"
-                stroke="var(--color-success)"
+                stroke="var(--color-success, #10B981)"
                 strokeWidth="7"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -86,8 +89,8 @@ export default function Register() {
                 transition={{ duration: 0.4, delay: 0.4, ease: "easeOut" }}
               />
             </motion.svg>
-            <h2 className="auth-title">Account Created!</h2>
-            <p className="auth-subtitle" style={{ margin: 0 }}>Please check your email for the verification OTP.</p>
+            <h2 className="auth-form-title">Account Created!</h2>
+            <p className="auth-form-subtitle">Please check your email for the verification OTP code.</p>
           </motion.div>
         </div>
       </div>
@@ -111,7 +114,7 @@ export default function Register() {
 
       <div className="auth-container">
         <motion.div
-          className="uiverse-form"
+          className="auth-card-modern"
           animate={{
             x: shake ? [-10, 10, -10, 10, -5, 5, 0] : 0,
             opacity: 1,
@@ -120,57 +123,79 @@ export default function Register() {
           transition={{ duration: 0.45 }}
           initial={{ opacity: 0, y: 35 }}
         >
-          <div style={{ textAlign: "center", marginBottom: "8px" }}>
-            <Link to="/" className="auth-logo"><Logo size={28} gap={6} /></Link>
-            <p id="heading">Create Account</p>
+          <div className="auth-header">
+            <Link to="/" className="auth-logo-link">
+              <Logo size={28} gap={6} />
+            </Link>
+            <h1 className="auth-form-title">Create Account</h1>
+            <p className="auth-form-subtitle">Join us to discover and stream unlimited movies & web series.</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit, onError)}>
-            <div className="field">
-              <HiUser className="input-icon" />
-              <input
-                type="text"
-                className="input-field"
-                placeholder="Full Name"
-                {...register("name", { required: "Name is required", minLength: { value: 2, message: "Name too short" } })}
-              />
+          <form onSubmit={handleSubmit(onSubmit, onError)} className="auth-form">
+            <div className="auth-field-group">
+              <label className="auth-field-label">Full Name</label>
+              <div className="auth-input-wrapper">
+                <HiUser className="auth-input-icon" />
+                <input
+                  type="text"
+                  className="auth-input-field"
+                  placeholder="John Doe"
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: { value: 2, message: "Name must be at least 2 characters" }
+                  })}
+                />
+              </div>
+              {errors.name && <span className="auth-field-error">{errors.name.message}</span>}
             </div>
-            {errors.name && <span className="form-error">{errors.name.message}</span>}
 
-            <div className="field" style={{ marginTop: "12px" }}>
-              <HiMail className="input-icon" />
-              <input
-                type="email"
-                className="input-field"
-                placeholder="Email Address"
-                {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Please enter a valid email address" } })}
-              />
+            <div className="auth-field-group">
+              <label className="auth-field-label">Email Address</label>
+              <div className="auth-input-wrapper">
+                <HiMail className="auth-input-icon" />
+                <input
+                  type="email"
+                  className="auth-input-field"
+                  placeholder="name@example.com"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: { value: /^\S+@\S+$/i, message: "Please enter a valid email address" }
+                  })}
+                />
+              </div>
+              {errors.email && <span className="auth-field-error">{errors.email.message}</span>}
             </div>
-            {errors.email && <span className="form-error">{errors.email.message}</span>}
 
-            <div className="field" style={{ marginTop: "12px" }}>
-              <HiLockClosed className="input-icon" />
-              <input
-                type={passwordVisible ? "text" : "password"}
-                className="input-field"
-                placeholder="Password (min 6 characters)"
-                {...register("password", { required: "Password is required", minLength: { value: 6, message: "Minimum 6 characters" } })}
-              />
-              <button
-                type="button"
-                onClick={() => setPasswordVisible(!passwordVisible)}
-                style={{ background: "none", border: "none", color: "#d3d3d3", cursor: "pointer" }}
-              >
-                {passwordVisible ? <HiEyeOff className="input-icon" /> : <HiEye className="input-icon" />}
-              </button>
+            <div className="auth-field-group">
+              <label className="auth-field-label">Password</label>
+              <div className="auth-input-wrapper">
+                <HiLockClosed className="auth-input-icon" />
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  className="auth-input-field"
+                  placeholder="At least 6 characters"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: { value: 6, message: "Minimum 6 characters required" }
+                  })}
+                />
+                <button
+                  type="button"
+                  className="auth-toggle-pwd"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                  aria-label={passwordVisible ? "Hide password" : "Show password"}
+                >
+                  {passwordVisible ? <HiEyeOff /> : <HiEye />}
+                </button>
+              </div>
+              {errors.password && <span className="auth-field-error">{errors.password.message}</span>}
             </div>
-            {errors.password && <span className="form-error">{errors.password.message}</span>}
 
-            <div className="btn-group">
-              <button type="button" className="button1" onClick={() => navigate("/login")}>
+            <div className="auth-btn-group">
+              <button type="button" className="auth-btn-secondary" onClick={() => navigate("/login")}>
                 Cancel
               </button>
-              <button type="submit" className="button2" disabled={loading}>
+              <button type="submit" className="auth-btn-primary" disabled={loading}>
                 {loading ? <span className="auth-spinner" /> : "Sign Up"}
               </button>
             </div>
@@ -178,7 +203,7 @@ export default function Register() {
 
           <div className="auth-divider">
             <span className="auth-divider-line" />
-            <span className="auth-divider-text">or register with</span>
+            <span>or register with</span>
             <span className="auth-divider-line" />
           </div>
 
